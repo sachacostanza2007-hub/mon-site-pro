@@ -6,6 +6,7 @@ import { POSTS, getPost } from "@/lib/blog-data";
 import { Reveal } from "@/components/ui/reveal";
 import { Button } from "@/components/ui/button";
 import { PulseDivider } from "@/components/ui/pulse-divider";
+import { RevealImage } from "@/components/ui/reveal-image";
 import { JsonLd } from "@/components/seo/json-ld";
 import { BASE_URL, breadcrumbJsonLd } from "@/lib/seo";
 
@@ -75,7 +76,7 @@ export default async function ArticlePage({
         </div>
       </section>
 
-      <section className={`h-56 bg-gradient-to-br ${post.from} ${post.to} md:h-72`} />
+      <RevealImage className={`h-56 bg-gradient-to-br ${post.from} ${post.to} md:h-72`} />
 
       <section className="border-b border-border">
         <div className="mx-auto max-w-2xl px-6 py-16">

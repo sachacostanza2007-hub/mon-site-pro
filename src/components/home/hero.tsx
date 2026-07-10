@@ -1,7 +1,8 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight, Sparkles } from "lucide-react";
+import { useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { AnimatedCounter } from "@/components/ui/animated-counter";
 
@@ -15,9 +16,15 @@ const BADGES = ["Sites conformes RGPD", "Hébergement inclus", "Support réactif
 
 export function Hero() {
   const reduced = useReducedMotion();
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"],
+  });
+  const parallaxY = useTransform(scrollYProgress, [0, 1], [0, reduced ? 0 : 50]);
 
   return (
-    <section className="relative overflow-hidden border-b border-border">
+    <section ref={sectionRef} className="relative overflow-hidden border-b border-border">
       <div
         aria-hidden
         className="pointer-events-none absolute -inset-x-20 -top-40 -z-10 h-[640px] animate-drift"
@@ -107,41 +114,42 @@ export function Hero() {
           </div>
         </div>
 
-        <motion.div
-          initial={reduced ? false : { opacity: 0, y: 30, scale: 0.98 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 0.7, ease: [0.2, 0.65, 0.3, 1], delay: 0.2 }}
-          className="relative hidden md:block"
-        >
-          <div className="overflow-hidden rounded-lg border border-border bg-surface shadow-[0_30px_80px_-30px_rgba(59,78,158,0.35)]">
-            <div className="flex items-center gap-1.5 border-b border-border px-4 py-3">
-              <span className="h-2.5 w-2.5 rounded-full bg-border-strong" />
-              <span className="h-2.5 w-2.5 rounded-full bg-border-strong" />
-              <span className="h-2.5 w-2.5 rounded-full bg-border-strong" />
-              <span className="ml-3 font-mono text-[0.65rem] text-muted">
-                atelier-rivière.fr
-              </span>
-            </div>
-            <div className="space-y-4 bg-gradient-to-br from-mauve-50 to-trust-50 p-6">
-              <div className="h-3 w-24 rounded-full bg-mauve-200" />
-              <div className="h-6 w-4/5 rounded-md bg-ink/10" />
-              <div className="h-3 w-3/5 rounded-full bg-ink/10" />
-              <div className="grid grid-cols-2 gap-3 pt-2">
-                <div className="h-20 rounded-md border border-border bg-surface/80" />
-                <div className="h-20 rounded-md border border-border bg-surface/80" />
+        <motion.div style={{ y: parallaxY }} className="relative hidden md:block">
+          <motion.div
+            initial={reduced ? false : { opacity: 0, y: 30, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.7, ease: [0.2, 0.65, 0.3, 1], delay: 0.2 }}
+          >
+            <div className="overflow-hidden rounded-lg border border-border bg-surface shadow-[0_30px_80px_-30px_rgba(59,78,158,0.35)]">
+              <div className="flex items-center gap-1.5 border-b border-border px-4 py-3">
+                <span className="h-2.5 w-2.5 rounded-full bg-border-strong" />
+                <span className="h-2.5 w-2.5 rounded-full bg-border-strong" />
+                <span className="h-2.5 w-2.5 rounded-full bg-border-strong" />
+                <span className="ml-3 font-mono text-[0.65rem] text-muted">
+                  atelier-rivière.fr
+                </span>
               </div>
-              <div className="h-9 w-32 rounded-full bg-gradient-to-r from-mauve-500 to-trust-500" />
+              <div className="space-y-4 bg-gradient-to-br from-mauve-50 to-trust-50 p-6">
+                <div className="h-3 w-24 rounded-full bg-mauve-200" />
+                <div className="h-6 w-4/5 rounded-md bg-ink/10" />
+                <div className="h-3 w-3/5 rounded-full bg-ink/10" />
+                <div className="grid grid-cols-2 gap-3 pt-2">
+                  <div className="h-20 rounded-md border border-border bg-surface/80" />
+                  <div className="h-20 rounded-md border border-border bg-surface/80" />
+                </div>
+                <div className="h-9 w-32 rounded-full bg-gradient-to-r from-mauve-500 to-trust-500" />
+              </div>
             </div>
-          </div>
 
-          <div className="absolute -bottom-6 -left-6 w-48 rounded-lg border border-border bg-surface p-4 shadow-[0_20px_50px_-20px_rgba(139,95,166,0.4)]">
-            <p className="font-mono text-[0.65rem] uppercase tracking-wide text-muted">
-              Satisfaction client
-            </p>
-            <p className="mt-1 font-display text-2xl font-semibold text-gradient">
-              4,9 / 5
-            </p>
-          </div>
+            <div className="absolute -bottom-6 -left-6 w-48 rounded-lg border border-border bg-surface p-4 shadow-[0_20px_50px_-20px_rgba(139,95,166,0.4)]">
+              <p className="font-mono text-[0.65rem] uppercase tracking-wide text-muted">
+                Satisfaction client
+              </p>
+              <p className="mt-1 font-display text-2xl font-semibold text-gradient">
+                4,9 / 5
+              </p>
+            </div>
+          </motion.div>
         </motion.div>
       </div>
     </section>

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { PointerEvent, useRef } from "react";
+import { RevealImage } from "@/components/ui/reveal-image";
 
 const MotionLink = motion.create(Link);
 
@@ -77,7 +78,7 @@ export function ProjectCard({ project }: { project: Project }) {
           className="pointer-events-none absolute inset-0 z-10"
           style={{ background: haloBackground, opacity: haloOpacity }}
         />
-        <div
+        <RevealImage
           className={`flex h-48 flex-col justify-between bg-gradient-to-br ${project.from} ${project.to} p-5`}
         >
           <div className="flex items-center gap-1.5">
@@ -89,7 +90,7 @@ export function ProjectCard({ project }: { project: Project }) {
             <div className="h-2.5 w-2/3 rounded-full bg-ink/15" />
             <div className="h-2.5 w-1/2 rounded-full bg-ink/15" />
           </div>
-        </div>
+        </RevealImage>
         <div className="flex items-center justify-between p-5">
           <div>
             <p className="font-semibold">{project.name}</p>

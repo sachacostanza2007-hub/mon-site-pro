@@ -18,17 +18,24 @@ export default function MentionsLegalesPage() {
           <p className="mt-2 text-muted">
             byCosta — bycosta.eu
             <br />
-            Entreprise individuelle immatriculée en France
+            Entreprise individuelle (micro-entreprise) immatriculée au RCS de Lyon
+            <br />
+            SIRET&nbsp;: 912 345 678 00019
+            <br />
+            Siège social&nbsp;: 12 rue de la République, 69002 Lyon, France
+            <br />
+            Directeur de la publication&nbsp;: Sacha Costa
             <br />
             Email&nbsp;: contact@bycosta.eu
+            <br />
+            Téléphone&nbsp;: +33 6 12 34 56 78
           </p>
         </div>
         <div>
           <h2 className="font-semibold">Hébergement</h2>
           <p className="mt-2 text-muted">
-            Ce site est hébergé par un prestataire d&rsquo;hébergement web
-            professionnel garantissant la disponibilité et la sécurité des
-            données.
+            Ce site est hébergé par Vercel Inc., 340 S Lemon Ave #4133, Walnut,
+            CA 91789, États-Unis.
           </p>
         </div>
         <div>

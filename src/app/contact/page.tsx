@@ -72,13 +72,13 @@ export default function ContactPage() {
               </li>
               <li className="flex items-center gap-3">
                 <Phone size={16} className="text-mauve-600" />
-                <a href="tel:+330000000000" className="hover:text-mauve-700">
-                  +33 0 00 00 00 00
+                <a href="tel:+33612345678" className="hover:text-mauve-700">
+                  +33 6 12 34 56 78
                 </a>
               </li>
               <li className="flex items-center gap-3">
                 <MapPin size={16} className="text-mauve-600" />
-                France — interventions à distance et sur site
+                Lyon, France — interventions à distance et sur site
               </li>
             </ul>
           </Reveal>

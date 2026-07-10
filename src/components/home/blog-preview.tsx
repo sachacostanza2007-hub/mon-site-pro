@@ -3,35 +3,10 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { motion } from "framer-motion";
+import { POSTS } from "@/lib/blog-data";
 import { Reveal, RevealGroup, revealItemVariants } from "@/components/ui/reveal";
 import { Button } from "@/components/ui/button";
-
-const POSTS = [
-  {
-    slug: "site-internet-artisan-premiers-clients",
-    category: "Stratégie",
-    readTime: "6 min",
-    title: "Comment un site internet vous amène vos premiers clients quand vous êtes artisan",
-    from: "from-mauve-100",
-    to: "to-mauve-50",
-  },
-  {
-    slug: "combien-coute-site-internet-professionnel",
-    category: "Budget",
-    readTime: "5 min",
-    title: "Combien coûte vraiment un site internet professionnel en 2026 ?",
-    from: "from-trust-100",
-    to: "to-trust-50",
-  },
-  {
-    slug: "erreurs-a-eviter-refonte-site",
-    category: "Conseils",
-    readTime: "7 min",
-    title: "Les 5 erreurs à éviter avant de refaire le site de votre entreprise",
-    from: "from-mauve-50",
-    to: "to-trust-100",
-  },
-];
+import { RevealImage } from "@/components/ui/reveal-image";
 
 export function BlogPreview() {
   return (
@@ -60,7 +35,7 @@ export function BlogPreview() {
                 href={`/blog/${post.slug}`}
                 className="group block overflow-hidden rounded-lg border border-border bg-surface transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_48px_-28px_rgba(139,95,166,0.35)]"
               >
-                <div className={`h-36 bg-gradient-to-br ${post.from} ${post.to}`} />
+                <RevealImage className={`h-36 bg-gradient-to-br ${post.from} ${post.to}`} />
                 <div className="p-6">
                   <div className="flex items-center gap-3 font-mono text-[0.7rem] uppercase tracking-wide text-muted">
                     <span>{post.category}</span>

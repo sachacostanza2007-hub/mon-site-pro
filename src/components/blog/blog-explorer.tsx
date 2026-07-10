@@ -6,6 +6,7 @@ import { ArrowUpRight, Search } from "lucide-react";
 import { motion } from "framer-motion";
 import { CATEGORIES, POSTS } from "@/lib/blog-data";
 import { RevealGroup, revealItemVariants } from "@/components/ui/reveal";
+import { RevealImage } from "@/components/ui/reveal-image";
 import { cn } from "@/lib/utils";
 
 export function BlogExplorer() {
@@ -70,7 +71,7 @@ export function BlogExplorer() {
                 href={`/blog/${post.slug}`}
                 className="group block overflow-hidden rounded-lg border border-border bg-surface transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_48px_-28px_rgba(139,95,166,0.35)]"
               >
-                <div className={`h-36 bg-gradient-to-br ${post.from} ${post.to}`} />
+                <RevealImage className={`h-36 bg-gradient-to-br ${post.from} ${post.to}`} />
                 <div className="p-6">
                   <div className="flex items-center gap-3 font-mono text-[0.7rem] uppercase tracking-wide text-muted">
                     <span>{post.category}</span>
