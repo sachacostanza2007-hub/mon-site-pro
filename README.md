@@ -1,36 +1,40 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# bycosta.eu
 
-## Getting Started
+Site vitrine de byCosta — agence de création de sites web premium pour
+artisans, commerçants, PME et indépendants.
 
-First, run the development server:
+Site statique en HTML/CSS/JS classique : aucun framework, aucune étape de
+build, aucune dépendance à installer pour l'héberger.
+
+## Aperçu en local
+
+Depuis la racine du dépôt, servez les fichiers avec n'importe quel serveur
+statique, par exemple :
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+python3 -m http.server 8080
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+puis ouvrez `http://localhost:8080/`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `index.html`, `services/`, `realisations/`, `a-propos/`, `blog/`,
+  `contact/`, `mentions-legales/`, `confidentialite/`, `404.html` — les
+  pages du site.
+- `assets/css/style.css` — le système de design (couleurs, typographie,
+  composants, animations).
+- `assets/js/main.js` — les comportements interactifs (menu mobile, reveal
+  au scroll, compteurs animés, cartes avec tilt/halo, filtre du blog,
+  formulaire de contact, timeline de la méthode).
+- `assets/img/` — favicon, icône Apple, image Open Graph.
+- `sitemap.xml`, `robots.txt` — fichiers SEO.
+- `tools/` — scripts Node utilisés pour générer les pages HTML à partir de
+  gabarits communs (pas nécessaires pour héberger le site, seulement pour
+  éditer le contenu — voir `AGENTS.md`).
 
-## Learn More
+## Déploiement
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Le contenu de ce dépôt (hors `tools/`) peut être déployé tel quel sur
+n'importe quel hébergeur de fichiers statiques (Vercel, Netlify, GitHub
+Pages, Cloudflare Pages, etc.), sans configuration de build.
