@@ -4,6 +4,7 @@ import "./globals.css";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { SmoothScrollProvider } from "@/components/providers/smooth-scroll-provider";
+import { RouteTransition } from "@/components/providers/route-transition";
 import { JsonLd } from "@/components/seo/json-ld";
 
 const newsreader = Newsreader({
@@ -94,7 +95,7 @@ export default function RootLayout({
         <SmoothScrollProvider>
           <Navbar />
           <main id="main-content" className="flex-1">
-            {children}
+            <RouteTransition>{children}</RouteTransition>
           </main>
           <Footer />
         </SmoothScrollProvider>

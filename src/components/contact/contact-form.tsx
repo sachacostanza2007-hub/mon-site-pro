@@ -2,7 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { CheckCircle2 } from "lucide-react";
+import { AlertCircle, CheckCircle2 } from "lucide-react";
 import { MagneticButton } from "@/components/ui/magnetic-button";
 
 const SUBJECTS = [
@@ -14,13 +14,39 @@ const SUBJECTS = [
 ];
 
 export function ContactForm() {
-  const [status, setStatus] = useState<"idle" | "loading" | "sent">("idle");
+  const [status, setStatus] = useState<"idle" | "loading" | "sent" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setStatus("loading");
-    await new Promise((resolve) => setTimeout(resolve, 900));
-    setStatus("sent");
+
+    const form = e.currentTarget;
+    const data = Object.fromEntries(new FormData(form).entries());
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      if (!res.ok) {
+        const payload = await res.json().catch(() => ({}));
+        setErrorMessage(
+          payload.error ?? "Une erreur est survenue. Merci de réessayer."
+        );
+        setStatus("error");
+        return;
+      }
+
+      setStatus("sent");
+    } catch {
+      setErrorMessage(
+        "Impossible d'envoyer le message pour le moment. Merci de réessayer ou de nous écrire directement à contact@bycosta.eu."
+      );
+      setStatus("error");
+    }
   }
 
   if (status === "sent") {
@@ -42,6 +68,17 @@ export function ContactForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
+      {status === "error" && (
+        <motion.div
+          initial={{ opacity: 0, y: -6 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="flex items-start gap-3 rounded-md border border-error/30 bg-error/10 px-4 py-3 text-sm text-error"
+        >
+          <AlertCircle size={16} className="mt-0.5 shrink-0" />
+          {errorMessage}
+        </motion.div>
+      )}
+
       <div className="grid gap-5 sm:grid-cols-2">
         <Field label="Nom complet" htmlFor="name">
           <input id="name" name="name" type="text" required className={inputClass} />
