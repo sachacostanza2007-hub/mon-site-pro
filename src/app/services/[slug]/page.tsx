@@ -7,6 +7,8 @@ import { Reveal } from "@/components/ui/reveal";
 import { Button } from "@/components/ui/button";
 import { PulseDivider } from "@/components/ui/pulse-divider";
 import { FinalCta } from "@/components/home/final-cta";
+import { JsonLd } from "@/components/seo/json-ld";
+import { BASE_URL, breadcrumbJsonLd, faqJsonLd } from "@/lib/seo";
 
 export function generateStaticParams() {
   return SERVICES.map((s) => ({ slug: s.slug }));
@@ -32,8 +34,28 @@ export default async function ServiceDetailPage({
   const service = getService(slug);
   if (!service) notFound();
 
+  const serviceJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: service.title,
+    description: service.short,
+    provider: { "@id": `${BASE_URL}/#organization` },
+    areaServed: "FR",
+    audience: { "@type": "Audience", audienceType: service.audience },
+  };
+
+  const breadcrumbs = breadcrumbJsonLd([
+    { name: "Accueil", path: "/" },
+    { name: "Services", path: "/services" },
+    { name: service.title, path: `/services/${service.slug}` },
+  ]);
+
   return (
     <>
+      <JsonLd data={serviceJsonLd} />
+      <JsonLd data={breadcrumbs} />
+      <JsonLd data={faqJsonLd(service.faqs)} />
+
       <section className="border-b border-border">
         <div className="mx-auto max-w-3xl px-6 py-20">
           <Reveal>

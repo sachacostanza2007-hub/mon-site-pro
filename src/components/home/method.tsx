@@ -1,6 +1,8 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Reveal } from "@/components/ui/reveal";
 
 const STEPS = [
@@ -31,6 +33,46 @@ const STEPS = [
 ];
 
 export function Method() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const lineRef = useRef<HTMLDivElement>(null);
+  const badgeRefs = useRef<(HTMLSpanElement | null)[]>([]);
+
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      if (lineRef.current) gsap.set(lineRef.current, { scaleY: 1, transformOrigin: "top" });
+      badgeRefs.current.forEach((badge) => {
+        if (badge) badge.dataset.active = "true";
+      });
+      return;
+    }
+    gsap.registerPlugin(ScrollTrigger);
+
+    const ctx = gsap.context(() => {
+      if (!containerRef.current || !lineRef.current) return;
+
+      gsap.set(lineRef.current, { scaleY: 0, transformOrigin: "top" });
+
+      const trigger = ScrollTrigger.create({
+        trigger: containerRef.current,
+        start: "top 75%",
+        end: "bottom 55%",
+        scrub: 0.6,
+        onUpdate: (self) => {
+          gsap.set(lineRef.current, { scaleY: self.progress });
+          const active = Math.round(self.progress * (STEPS.length - 1));
+          badgeRefs.current.forEach((badge, i) => {
+            if (!badge) return;
+            badge.dataset.active = i <= active ? "true" : "false";
+          });
+        },
+      });
+
+      return () => trigger.kill();
+    }, containerRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
     <section className="border-b border-border bg-surface-raised">
       <div className="mx-auto max-w-4xl px-6 py-24">
@@ -43,18 +85,22 @@ export function Method() {
           </h2>
         </Reveal>
 
-        <div className="relative mt-16 pl-12">
-          <motion.div
-            className="absolute left-4 top-1 bottom-1 w-px origin-top bg-gradient-to-b from-mauve-500 to-trust-500"
-            initial={{ scaleY: 0 }}
-            whileInView={{ scaleY: 1 }}
-            viewport={{ once: true, margin: "-10%" }}
-            transition={{ duration: 1.2, ease: [0.65, 0, 0.35, 1] }}
+        <div ref={containerRef} className="relative mt-16 pl-12">
+          <div className="absolute left-4 top-1 bottom-1 w-px bg-border" />
+          <div
+            ref={lineRef}
+            className="absolute left-4 top-1 bottom-1 w-px bg-gradient-to-b from-mauve-500 to-trust-500"
           />
 
           {STEPS.map((step, i) => (
             <Reveal key={step.title} delay={i * 0.05} className="relative mb-12 last:mb-0">
-              <span className="absolute -left-12 flex h-8 w-8 items-center justify-center rounded-full border border-border bg-surface font-mono text-xs text-trust-600">
+              <span
+                ref={(el) => {
+                  badgeRefs.current[i] = el;
+                }}
+                data-active="false"
+                className="absolute -left-12 flex h-8 w-8 items-center justify-center rounded-full border border-border bg-surface font-mono text-xs text-muted transition-colors duration-300 data-[active=true]:border-transparent data-[active=true]:bg-gradient-to-r data-[active=true]:from-mauve-500 data-[active=true]:to-trust-500 data-[active=true]:text-white"
+              >
                 {String(i + 1).padStart(2, "0")}
               </span>
               <h3 className="text-lg font-semibold">{step.title}</h3>

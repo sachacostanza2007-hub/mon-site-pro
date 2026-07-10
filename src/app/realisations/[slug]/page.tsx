@@ -5,6 +5,8 @@ import { PROJECTS, getProject } from "@/lib/projects-data";
 import { Reveal } from "@/components/ui/reveal";
 import { Button } from "@/components/ui/button";
 import { FinalCta } from "@/components/home/final-cta";
+import { JsonLd } from "@/components/seo/json-ld";
+import { breadcrumbJsonLd } from "@/lib/seo";
 
 export function generateStaticParams() {
   return PROJECTS.map((p) => ({ slug: p.slug }));
@@ -30,8 +32,16 @@ export default async function ProjectDetailPage({
   const project = getProject(slug);
   if (!project) notFound();
 
+  const breadcrumbs = breadcrumbJsonLd([
+    { name: "Accueil", path: "/" },
+    { name: "Réalisations", path: "/realisations" },
+    { name: project.name, path: `/realisations/${project.slug}` },
+  ]);
+
   return (
     <>
+      <JsonLd data={breadcrumbs} />
+
       <section className="border-b border-border">
         <div className={`bg-gradient-to-br ${project.from} ${project.to}`}>
           <div className="mx-auto max-w-4xl px-6 py-20">

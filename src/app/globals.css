@@ -209,3 +209,9 @@ body {
   background: var(--color-mauve-200);
   color: var(--color-mauve-900);
 }
+
+:focus-visible {
+  outline: 2px solid var(--color-trust-500);
+  outline-offset: 2px;
+  border-radius: 2px;
+}

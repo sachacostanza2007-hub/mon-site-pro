@@ -5,6 +5,7 @@ export type Post = {
   category: string;
   readTime: string;
   date: string;
+  isoDate: string;
   from: string;
   to: string;
   body: string[];
@@ -21,6 +22,7 @@ export const POSTS: Post[] = [
     category: "Stratégie",
     readTime: "6 min",
     date: "12 mai 2026",
+    isoDate: "2026-05-12",
     from: "from-mauve-100",
     to: "to-mauve-50",
     body: [
@@ -38,6 +40,7 @@ export const POSTS: Post[] = [
     category: "Budget",
     readTime: "5 min",
     date: "28 avril 2026",
+    isoDate: "2026-04-28",
     from: "from-trust-100",
     to: "to-trust-50",
     body: [
@@ -55,6 +58,7 @@ export const POSTS: Post[] = [
     category: "Conseils",
     readTime: "7 min",
     date: "3 avril 2026",
+    isoDate: "2026-04-03",
     from: "from-mauve-50",
     to: "to-trust-100",
     body: [

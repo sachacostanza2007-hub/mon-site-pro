@@ -6,6 +6,8 @@ import { POSTS, getPost } from "@/lib/blog-data";
 import { Reveal } from "@/components/ui/reveal";
 import { Button } from "@/components/ui/button";
 import { PulseDivider } from "@/components/ui/pulse-divider";
+import { JsonLd } from "@/components/seo/json-ld";
+import { BASE_URL, breadcrumbJsonLd } from "@/lib/seo";
 
 export function generateStaticParams() {
   return POSTS.map((p) => ({ slug: p.slug }));
@@ -33,8 +35,29 @@ export default async function ArticlePage({
 
   const related = POSTS.filter((p) => p.slug !== post.slug).slice(0, 2);
 
+  const articleJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: post.title,
+    description: post.excerpt,
+    datePublished: post.isoDate,
+    dateModified: post.isoDate,
+    author: { "@id": `${BASE_URL}/#organization` },
+    publisher: { "@id": `${BASE_URL}/#organization` },
+    mainEntityOfPage: `${BASE_URL}/blog/${post.slug}`,
+  };
+
+  const breadcrumbs = breadcrumbJsonLd([
+    { name: "Accueil", path: "/" },
+    { name: "Blog", path: "/blog" },
+    { name: post.title, path: `/blog/${post.slug}` },
+  ]);
+
   return (
     <>
+      <JsonLd data={articleJsonLd} />
+      <JsonLd data={breadcrumbs} />
+
       <section className="border-b border-border">
         <div className="mx-auto max-w-2xl px-6 py-20">
           <Reveal>

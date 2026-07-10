@@ -12,8 +12,6 @@ const TECHNOLOGIES = [
 ];
 
 export function Technologies() {
-  const items = [...TECHNOLOGIES, ...TECHNOLOGIES];
-
   return (
     <section className="border-b border-border py-16">
       <div className="mx-auto max-w-6xl px-6">
@@ -26,14 +24,20 @@ export function Technologies() {
 
       <div className="relative mt-8 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
         <div className="flex w-max animate-marquee gap-12 [animation-play-state:running] hover:[animation-play-state:paused]">
-          {items.map((tech, i) => (
-            <span
-              key={`${tech}-${i}`}
-              className="font-mono text-sm tracking-wide text-muted"
-            >
-              {tech}
-            </span>
-          ))}
+          <ul className="flex gap-12">
+            {TECHNOLOGIES.map((tech) => (
+              <li key={tech} className="font-mono text-sm tracking-wide text-muted">
+                {tech}
+              </li>
+            ))}
+          </ul>
+          <ul className="flex gap-12" aria-hidden="true">
+            {TECHNOLOGIES.map((tech) => (
+              <li key={tech} className="font-mono text-sm tracking-wide text-muted">
+                {tech}
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </section>
